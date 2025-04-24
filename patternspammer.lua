@@ -10,21 +10,21 @@ local ocp = component.oc_pattern_editor
 local tr = component.transposer
 
 -- Config
-local ICHESTSIDE = sides.north
-local IFSIDE = sides.west
-local OCHESTSIDE = sides.south
+local BARRELSIDE = sides.north
+local OCPSIDE = sides.west
+local CHESTSIDE = sides.south
 
 local index = 1
 for idx, dust in ipairs(dusts) do
   print("Making recipe for:", dust.Label)
-  tr.transferItem(ICHESTSIDE, IFSIDE, 1, 2, 1)
+  tr.transferItem(BARRELSIDE, OCPSIDE, 1, 2, 1)
 
   db.set(1, dust.Name, dust.ID)
   db.set(2, "ae2fc:fluid_drop", 0, dust.Plasma)
   ocp.setInterfacePatternItemInput(1, db.address, 1, 1, 1)
   patternutils.cycle(1, db.address, 2, 144, true, true)
 
-  tr.transferItem(IFSIDE, OCHESTSIDE, 1, 1, index)
+  tr.transferItem(OCPSIDE, CHESTSIDE, 1, 1, index)
 
   db.clear(1)
   db.clear(2)
@@ -33,14 +33,14 @@ end
 
 for idx, fluid in ipairs(fluids) do
   print("Making recipe for:", fluid.Label)
-  tr.transferItem(ICHESTSIDE, IFSIDE, 1, 2, 1)
+  tr.transferItem(BARRELSIDE, OCPSIDE, 1, 2, 1)
 
   db.set(1, "ae2fc:fluid_drop", 0, fluid.Name)
   db.set(2, "ae2fc:fluid_drop", 0, fluid.Plasma)
   patternutils.cycle(1, db.address, 1, 144, true, false)
   patternutils.cycle(1, db.address, 2, 144, true, true)
 
-  tr.transferItem(IFSIDE, OCHESTSIDE, 1, 1, index)
+  tr.transferItem(OCPSIDE, CHESTSIDE, 1, 1, index)
 
   db.clear(1)
   db.clear(2)

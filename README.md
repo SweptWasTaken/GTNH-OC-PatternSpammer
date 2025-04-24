@@ -1,6 +1,8 @@
 # GTNH-OC-PatternSpammer
 A script specifically for automating pattern creation for gluon/magmatter.
 
+(Although it could be used for spamming any kind of pattern. Just check the `dusts.lua` and `fluids.lua` files.
+
 ## Content
 
 - [About](#about)

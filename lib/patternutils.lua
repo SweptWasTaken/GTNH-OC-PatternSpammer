@@ -1,33 +1,47 @@
--- Written by Swept for GTNH 2.7.3 in 2025
-
-local patternutils = {}
 local component = require("component")
-local ocp = component.oc_pattern_editor
+local ocp       = component.oc_pattern_editor
 
-function patternutils.cycle(side, dbAddr, dbIndex, amount, isFluid, isOutput)
-    local CHUNK_SIZE = 64
-    local index = 1
+local patternutils = {
+  outputSlot = 1,
+  nextSlot   = 2,
+}
 
-    while amount > 0 do
-        local thisChunk = math.min(CHUNK_SIZE, amount)
+function patternutils.setOutputSlot(slot)
+  assert(type(slot) == "number" and slot >= 1, "setOutputSlot needs a positive integer")
+  patternutils.outputSlot = slot
+end
 
-        if isFluid then
-            if isOutput then
-                ocp.setInterfacePatternFluidOutput(side, dbAddr, dbIndex, thisChunk, index)
-            else
-                ocp.setInterfacePatternFluidInput(side, dbAddr, dbIndex, thisChunk, index)
-            end
-        else
-            if isOutput then
-                ocp.setInterfacePatternItemOutput(side, dbAddr, dbIndex, thisChunk, index)
-            else
-                ocp.setInterfacePatternItemInput(side, dbAddr, dbIndex, thisChunk, index)
-            end
-        end
+function patternutils.reset(peSlot)
+  ocp.clearInterfacePatternInput(1, 1)
+  ocp.clearInterfacePatternOutput(1, 1) 
+  patternutils.nextSlot = patternutils.outputSlot + 1
+end
 
-        amount = amount - thisChunk
-        index = index + 1
+function patternutils.cycle(peSlot, dbAddr, dbChannel, amount, isFluid, isOutput)
+  local CHUNK = 64
+  local remaining = amount
+
+  while remaining > 0 do
+    local thisChunk = math.min(CHUNK, remaining)
+    local slotIndex = isOutput and
+      patternutils.outputSlot or
+      patternutils.nextSlot
+
+    local method = (isFluid
+      and (isOutput and "setInterfacePatternFluidOutput"
+                    or  "setInterfacePatternFluidInput")
+      or (isOutput and "setInterfacePatternItemOutput"
+                    or  "setInterfacePatternItemInput")
+    )
+
+    -- Write
+    ocp[method](peSlot, dbAddr, dbChannel, thisChunk, slotIndex)
+
+    remaining = remaining - thisChunk
+    if not isOutput then
+      patternutils.nextSlot = patternutils.nextSlot + 1
     end
+  end
 end
 
 return patternutils

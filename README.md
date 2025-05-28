@@ -1,7 +1,5 @@
 # GTNH-OC-PatternSpammer
-A script specifically for automating pattern creation for gluon/magmatter.
-
-(Although it could be used for spamming any kind of pattern. Just check the `dusts.lua` and `fluids.lua` files.
+A script specifically for automating tedious pattern creation.
 
 ## Content
 
@@ -14,14 +12,14 @@ A script specifically for automating pattern creation for gluon/magmatter.
 
 ## About
 
-This program is designed to automate the production of the plasma recipes that are required for Degenerate Quark Gluon Plasma and Molten Magmatter.
+This program is designed to automate the production of certain recipes in the GTNH modpack that I personally find annoying.
 
-The program will pattern a fluid crafting pattern assuming it will be used in the Heliofusion Plasma module. The recipe will look different for both fluids and items.
+It currently supports all tiers of assemblyline machine components and the plasma recipes that are required for Degenerate Quark Gluon Plasma and Molten Magmatter.
 
-**Items**
+The plasmas program will pattern a fluid crafting pattern assuming it will be used in the Heliofusion Plasma module. The parts program will do the same, but for now you'll still have to do the named patterns for duplicate items for use in stocking input bus asslines.
+
+**For Plasmas**
 1 DUST -> 144 PLASMA
-
-**Fluids**
 144 FLUID -> 144 PLASMA
 
 Common plasmas like Helium or Radon that you should have patterned or automated by this point have been commented out, but can easily be reenabled. Additionally, input dusts that are mainly generated as fluids like Rhugnor or Infinity have been switched to fluids to make automation smoother.
@@ -45,7 +43,7 @@ Then run the command to start the installer.
 pastebin run yiL1tRMJ
 ```
 
-After setting up the blocks and the config, to run the program just type `patternspammer`.
+After setting up the blocks and the config, to run the program just type `main`.
 
 <a id="setup"></a>
 
